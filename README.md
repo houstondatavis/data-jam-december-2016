@@ -9,9 +9,9 @@ Data on >3000 offenses available in csv and json formats.
 |----------|--------------------------------------------|  
 | Address\_Range     | Address city-block for the crime|
 | Council\_District | Council district for the crime|
-| HPD\_Beat    | HPD beat|
-| HPD\_District     | HPD district |
-| HPD\_Division | HPD division |
+| HPD\_Beat    | [HPD beat](http://data.ohouston.org/dataset/hpd-beats) |
+| HPD\_District     | [HPD district](http://data.ohouston.org/dataset/hpd-districts) |
+| HPD\_Division | [HPD division](http://data.ohouston.org/dataset/hpd-divisions)|
 | Offense    | Crime offense category |
 | Premise\_Type      | Description of premise |
 | SNB\_Name | Super-neighborhood name |
