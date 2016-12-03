@@ -14,6 +14,6 @@ Data on >3000 offenses available in csv and json formats.
 | HPD\_Division | [HPD division](http://data.ohouston.org/dataset/hpd-divisions)|
 | Offense    | Crime offense category |
 | Premise\_Type      | Description of premise |
-| SNB\_Name | Super-neighborhood name |
-| SNB\_No      | Super-neighborhood number |
+| SNB\_Name | [Super-neighborhood](http://www.houstontx.gov/superneighborhoods/) name |
+| SNB\_No      | [Super-neighborhood](http://www.houstontx.gov/superneighborhoods/) number |
 | Time\_Begun | Time of inital response to offense |
