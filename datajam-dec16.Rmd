@@ -20,18 +20,30 @@ crime_file <- read.csv("~/Documents/RStudioGit/DataJam-Dec2016/crime_file.csv")
 
 ## Including Plots
 
-You can also embed plots, for example:
+
 
 ```{r echo=FALSE}
-qplot(crime_file$Council_District, geom_bar="histogram") 
-  #+ ggtitle("Number of Council Districts")
+qplot(crime_file$Council_District) +
+  ggtitle("Number of Council Districts")
   #+ theme(plot.title = element_text(hjust=0.5))
 ```
 
 
 
 ```{r echo=FALSE}
-d <- diamonds[sample(nrow(diamonds), 1000), ]
-plot_ly(d, x = ~carat, y = ~price, color = ~carat,
-        size = ~carat, text = ~paste("Clarity: ", clarity))
+qplot(crime_file$Month) +
+  ggtitle("Months")
+  #+ theme(plot.title = element_text(hjust=0.5))
 ```
+
+```{r echo=FALSE}
+qplot(crime_file$Weekday) +
+   ggtitle("Weekdays")
+  #+ theme(plot.title = element_text(hjust=0.5))
+```
+
+<!-- ```{r echo=FALSE} -->
+<!-- d <- diamonds[sample(nrow(diamonds), 1000), ] -->
+<!-- plot_ly(d, x = ~carat, y = ~price, color = ~carat, -->
+<!--         size = ~carat, text = ~paste("Clarity: ", clarity)) -->
+<!-- ``` -->
