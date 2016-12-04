@@ -42,6 +42,20 @@ qplot(crime_file$Weekday) +
   #+ theme(plot.title = element_text(hjust=0.5))
 ```
 
+
+```{r echo=FALSE}
+qplot(crime_file$Offense) +
+   ggtitle("Offense")
+  #+ theme(plot.title = element_text(hjust=0.5))
+
+t <- table(crime_file$Offense, crime_file$Weekday)
+print(t)
+plot(t)
+
+table(crime_file$Premise_Type, crime_file$Offense)
+
+```
+
 <!-- ```{r echo=FALSE} -->
 <!-- d <- diamonds[sample(nrow(diamonds), 1000), ] -->
 <!-- plot_ly(d, x = ~carat, y = ~price, color = ~carat, -->
