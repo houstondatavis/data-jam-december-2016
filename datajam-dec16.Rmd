@@ -1,0 +1,63 @@
+---
+title: "datajam-dec16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(plotly)
+set.seed(100)
+```
+
+## R Markdown
+
+Data Jam Dec 2016
+
+```{r echo=FALSE}
+library(ggplot2)
+crime_file <- read.csv("~/Documents/RStudioGit/DataJam-Dec2016/crime_file.csv")
+```
+
+## Including Plots
+
+
+
+```{r echo=FALSE}
+qplot(crime_file$Council_District) +
+  ggtitle("Number of Council Districts")
+  #+ theme(plot.title = element_text(hjust=0.5))
+```
+
+
+
+```{r echo=FALSE}
+qplot(crime_file$Month) +
+  ggtitle("Months")
+  #+ theme(plot.title = element_text(hjust=0.5))
+```
+
+```{r echo=FALSE}
+qplot(crime_file$Weekday) +
+   ggtitle("Weekdays")
+  #+ theme(plot.title = element_text(hjust=0.5))
+```
+
+
+```{r echo=FALSE}
+qplot(crime_file$Offense) +
+   ggtitle("Offense")
+  #+ theme(plot.title = element_text(hjust=0.5))
+
+t <- table(crime_file$Offense, crime_file$Weekday)
+print(t)
+plot(t)
+
+table(crime_file$Premise_Type, crime_file$Offense)
+
+```
+
+<!-- ```{r echo=FALSE} -->
+<!-- d <- diamonds[sample(nrow(diamonds), 1000), ] -->
+<!-- plot_ly(d, x = ~carat, y = ~price, color = ~carat, -->
+<!--         size = ~carat, text = ~paste("Clarity: ", clarity)) -->
+<!-- ``` -->
