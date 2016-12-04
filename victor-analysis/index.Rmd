@@ -1,0 +1,204 @@
+---
+title: "Data Jam 12/3/2016 - Crime Data"
+author: "Victor Kostyuk"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+```{r setup, include = FALSE, message = FALSE}
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(RColorBrewer)
+library(lubridate)
+library(randomForest)
+library(forestFloor)
+```
+
+```{r, message = FALSE, warning = FALSE}
+premise <- read.csv("Premises.csv", stringsAsFactors = FALSE)
+crime <- read.csv("crime_file.csv", stringsAsFactors = FALSE) %>%
+  mutate(Council_District = as.factor(Council_District),
+         HPD_Beat = as.factor(HPD_Beat),
+         HPD_District = as.factor(HPD_District),
+         HPD_Division = as.factor(HPD_Division),
+         Offense = as.factor(Offense),
+         Premise_Type = as.factor(Premise_Type),
+         SNB_Name = as.factor(SNB_Name),
+         SNB_No = as.factor(SNB_No),
+         Time = as.POSIXct(Time_Begun/1000, origin="1970-01-01", tz="GMT"),
+         Time_cat = ifelse(hour(Time) < 6, "Night",
+                           ifelse(hour(Time) < 10, "Morning",
+                                  ifelse(hour(Time) < 17, "Day", 
+                                         ifelse(hour(Time) < 21, "Early evening",
+                                                "Late Evening")))),
+         Time_cat = factor(Time_cat, levels = c("Morning", "Day", "Early evening",
+                                                "Late Evening", "Night"))) %>%
+  select(-Time_Begun) %>%
+  left_join(premise) %>%
+  mutate(Week = week(Time),
+         PT = as.factor(PT)) 
+```
+
+```{r}
+ggplot(crime, aes(x = wday(Time, label = TRUE), fill = Offense)) +
+  geom_bar(position = "stack") +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  theme_bw()
+```
+```{r}
+ggplot(crime, aes(x = wday(Time, label = TRUE), fill = PT)) +
+  geom_bar(position = "stack") +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  theme_bw()
+```
+
+```{r}
+ggplot(crime, aes(x = wday(Time, label = TRUE), fill = HPD_Beat)) +
+  geom_bar(position = "stack") +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  theme_bw()
+```
+
+```{r}
+ggplot(crime, aes(x = wday(Time, label = TRUE), fill = Time_cat)) +
+  geom_bar(position = "stack") +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  theme_bw()
+```
+
+```{r}
+ggplot(crime, aes(x = Time_cat, fill = Offense)) +
+  geom_bar(position = "stack") +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  theme_bw()
+```
+
+```{r}
+ggplot(crime, aes(x = Time_cat, fill = Offense)) +
+  geom_bar(position = "fill") +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  theme_bw() +
+  labs(y = "Percentage")
+```
+
+```{r}
+crime %>%
+  select(Time_cat, SNB_Name) %>%
+  mutate(SNB_Name = substr(as.character(SNB_Name), 1, 14)) %>%
+  table() %>% 
+  data.frame() %>%
+  group_by(Time_cat) %>%
+  mutate(Tot_cat = sum(Freq)) %>%
+  as.data.frame() %>% 
+  mutate(Freq = round(Freq/Tot_cat, 2)) %>%
+  ggplot(aes(x = Time_cat, y = SNB_Name)) +
+  geom_point(aes(size = Freq, color = Freq)) +
+  scale_size_continuous(range = c(6, 14)) +
+  geom_text(aes(label = Freq)) +
+  scale_color_gradient(low = "green", high = "red") +
+  theme_bw() +
+  guides(color = "none") +
+  labs(title = "Percent of crime in each locale \nduring a given time period",
+       x = "",
+       y = "")
+```
+
+The above shows that in the late envening, more than a quarter of the crime happens in the Greater Heights neighborhood, while Northside has proportionally more crime in the morning and day than at other times of the day. 
+
+```{r}
+crime %>%
+  select(HPD_Beat, Offense) %>%
+  table() %>%
+  as.data.frame() %>% 
+  ggplot(aes(x = Offense, y = HPD_Beat)) +
+  geom_point(aes(size = Freq, color = Freq)) +
+  scale_size_continuous(range = c(6, 14)) +
+  geom_text(aes(label = Freq)) +
+  scale_color_gradient(low = "green", high = "red") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  guides(color = "none") +
+  labs(x = "",
+       y = "")
+```
+
+```{r, results = "hide"}
+x <- crime[c(3, 6, 11, 12)]
+y <- crime$Week
+
+rf_ct <- randomForest(x, y, scale = FALSE, ntree = 1500,
+                   keep.forest = TRUE, keep.inbag = TRUE,
+                   importance = TRUE)
+
+ff <- forestFloor(rf_ct, x, calc_np = FALSE)
+```
+
+```{r, message = FALSE}
+Col <- fcol(ff, 1, orderByImportance = TRUE)
+plot(ff, col = Col, orderByImportance = TRUE, limitY = FALSE)
+```
+
+```{r, comment = NA, echo = FALSE}
+cat("Levels (for plots above):\n")
+cat("Offense:", paste(levels(x$Offense), collapse = ", "), "\n")
+cat("Premise:", paste(levels(x$PT), collapse = ", "), "\n")
+cat("Time of day:", paste(levels(x$Time_cat), collapse = ", "), "\n")
+```
+
+This shows, that controlling for the district, premise category, and time of day, aggravated assults and auto theft have increased, while rape and robbery have decreased over time. Also, crime during daytime has decreased while evening and night crime has slightly increased.
+
+```{r}
+crime %>%
+  filter(Week < 47) %>%
+  group_by(HPD_District, Week) %>%
+  summarize(N = n()) %>%
+  data.frame() %>%
+  ggplot(aes(x = Week, y = N, color = HPD_District)) +
+  geom_line() +
+  theme_bw()
+```
+
+```{r}
+crime %>%
+  filter(Week < 47) %>%
+  group_by(Week, HPD_District) %>%
+  summarize(N = n()) %>%
+  mutate(Tot_per_week = sum(N)) %>%
+  data.frame() %>% 
+  ggplot(aes(x = Week, y = N/Tot_per_week, color = HPD_District)) +
+  geom_line() +
+  theme_bw() +
+  labs(y = "Percentage of crime per district")
+```
+
+```{r}
+crime %>%
+  filter(Week < 47) %>%
+  group_by(Week, Offense, HPD_District) %>%
+  summarize(N = n()) %>%
+  group_by(Week) %>%
+  mutate(Tot_per_week = sum(N)) %>%
+  data.frame() %>% 
+  ggplot(aes(x = Week, y = N/Tot_per_week, color = HPD_District)) +
+  geom_line() +
+  theme_bw() +
+  labs(y = "Percentage of crime per district") +
+  facet_grid(Offense ~ ., scales = "free_y")
+```
+
+```{r}
+crime %>%
+  filter(Week < 47) %>%
+  group_by(Week, Time_cat, HPD_District) %>%
+  summarize(N = n()) %>%
+  group_by(Week) %>%
+  mutate(Tot_per_week = sum(N)) %>%
+  data.frame() %>% 
+  ggplot(aes(x = Week, y = N/Tot_per_week, color = HPD_District)) +
+  geom_line() +
+  theme_bw() +
+  labs(y = "Percentage of crime per district") +
+  facet_grid(Time_cat ~ ., scales = "free_y")
+```

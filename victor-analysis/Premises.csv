@@ -1,0 +1,95 @@
+Premise_Type,PT
+Government or Public Buil,Public
+Residence or House,Private
+Driveway,Private
+"Road, Street, or Sidewalk",Public
+Grocery Store or Supermar,Commercial
+Department or Discount St,Commercial
+Apartment,Private
+Restaurant or Cafeteria P,Commercial
+Other Parking Lot,Commercial
+"Church, Synagogue, or Tem",Commercial
+"Hotel, Motel, Inn, Etc.",Commercial
+Commercial Building,Commercial
+Commercial Parking Lot or,Commercial
+Miscellaneous Business (N,Commercial
+Convenience Store Parking,Commercial
+Liquor Store,Commercial
+Rental Storage Facility,Commercial
+Garage or Carport,Commercial
+"Factory, Manufacturing, o",Commercial
+"Gym, Recreat, Club House,",Commercial
+Clothing Store,Commercial
+Service or Gas Station,Commercial
+Vacant Other Residential,Private
+Bar or Night Club Parking,Commercial
+Convenience Store,Commercial
+"Vacant Storage Fac (Barn,",Commercial
+Bus Stop,Public
+Vehicle/Auto Sales/Lease/,Commercial
+Apartment Parking Lot,Private
+OfficeBuilding,Commercial
+Bank,Commercial
+"Multi-Plex Home (Duplex,T",Private
+Apartment Rental Office,Commercial
+Specialty Store (Non-Spec,Commercial
+Strip Business Center Par,Commercial
+"Daycare, Child Care, or K",Commercial
+Vacant Single Occ Resd(Ho,Private
+Restaurant or Cafeteria,Commercial
+Warehouse,Commercial
+Bar or Night Club,Commercial
+Elementary School,Public
+"Other, Unknown, or Not Li",Unknown
+Construction Site,Commercial
+High School,Public
+Alley,Public
+Maintenance or Building S,Commercial
+"Field, Woods, Forest, Par",Public
+Car Wash,Commercial
+Vacant Government or Publ,Public
+Sexually Oriented Club,Commercial
+Hotel or Motel Parking Lo,Commercial
+"Parks and Recreation, Zoo",Public
+"Pawn, Resale Shop, or Fle",Commercial
+"Libraries, Museums",Public
+"Laundry, Dry Cleaners, Wa",Commercial
+"Electronics Store, Electr",Commercial
+Office Building,Commercial
+Fire Station,Public
+"Theatres, Dinner Theaters",Commercial
+Mall Parking Lot,Commercial
+Vacant Other Out Build/Mo,Commercial
+"Utility Company, Electric",Public
+University or College,Public
+Train (Not Metro) Termina,Public
+Highway or Freeway,Public
+Social Services or Public,Public
+Mobile Home,Private
+Bus Station,Public
+Bank or Savings Instituti,Commercial
+Nursing Home,Commercial
+Barber And Beauty Shops,Commercial
+Light Rail Platform,Public
+Liquor Store Parking Lot,Commercial
+,Unknown
+Freeway Service Road,Public
+Drug Store or Medical Sup,Commercial
+Hospital,Commercial
+Middle School,Public
+Light Rail (Metro Rail) V,Public
+Private School,Commercial
+"Lake, Pond, Waterway, Bay",Public
+Vacant Building (Commerci,Commercial
+"Physician, Doctor, Dentis",Commercial
+Rehabilitation Center,Commercial
+Condominium,Private
+Auto Repair,Commercial
+Vacant Restaurant,Commercial
+Railroad Track or Right O,Public
+Body Shop,Commercial
+Park and Ride Terminal,Public
+Laundry or Dry Cleaners P,Commercial
+Airport Terminal,Public
+Video Rental & Sales,Commercial
+High Rise,Private
